@@ -1,0 +1,68 @@
+{
+  "title": "College Registration Deadline Dilemma",
+  "level": "CLB 9",
+  "part": "CELPIP Listening Part 1 - Problem Solving",
+  "topic": "College Registration",
+  "audio": {
+    "speech_rate": "fast",
+    "speech_tone": "concerned",
+    "inference_density": "high",
+    "agreement_complexity": "complex",
+    "viewpoint_overlap": "high",
+    "distractors": "medium",
+    "decision_changes": 2,
+    "interruptions": "natural"
+  },
+  "dialogue": [
+    {
+      "index": 1,
+      "speaker": "A",
+      "name": "Emma",
+      "voice": "af_sarah",
+      "text": "Hi, is this Student Services? I'm Emma Lee. I'm calling because I think I may have a problem with my fall registration.",
+      "pause_ms": 500
+    },
+    {
+      "index": 2,
+      "speaker": "B",
+      "name": "Michael",
+      "voice": "am_michael",
+      "text": "Good morning, Emma. This is Michael. I'd be happy to help. What's happening?",
+      "pause_ms": 400
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "skill": "MAIN_IDEA",
+      "question": "Why did Emma contact Student Services?",
+      "options": {
+        "A": "To change her program",
+        "B": "To solve a registration scheduling problem",
+        "C": "To apply for financial aid",
+        "D": "To withdraw from college"
+      },
+      "answer": {
+        "correct_option": "B",
+        "correct_answer": "To solve a registration scheduling problem",
+        "explanation": "The entire conversation focuses on course registration difficulties."
+      }
+    },
+    {
+      "id": 2,
+      "skill": "DETAIL",
+      "question": "When did course registration open for first-year students?",
+      "options": {
+        "A": "June twenty-third",
+        "B": "July first",
+        "C": "July fifteenth",
+        "D": "August first"
+      },
+      "answer": {
+        "correct_option": "C",
+        "correct_answer": "July fifteenth",
+        "explanation": "Michael states registration opened on July fifteenth."
+      }
+    }
+  ]
+}
