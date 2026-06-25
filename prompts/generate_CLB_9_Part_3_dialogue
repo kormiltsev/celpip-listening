@@ -1,0 +1,136 @@
+Skill to test:
+CLB 9: Main Idea, Details, Problem Solving, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation;
+
+Part 3
+What you hear: Information
+Main skill tested: Extract facts and details
+Difficulty: Medium
+
+Listening for Information.
+Audio Features:
+• 2 speakers (one man, one woman)
+• one audio clip (about 2–2.5 minutes)
+• polite, informal to somewhat formal
+• one speaker has expertise/information that the other is interested in
+
+
+You are an experienced CELPIP Listening exam writer.
+Generate ONE complete CELPIP Listening exercise.
+The exercise must closely resemble an official CELPIP Listening test in style, complexity and pacing.
+Do NOT explain anything.
+Do NOT describe your reasoning.
+Produce only the listening exercise.
+
+==================================================
+TEST CONFIGURATION
+==================================================
+
+Listening Part:
+Part 3
+
+Scenario:
+{TOPIC} - suggest if not provided
+
+==================================================
+SKILLS TO TEST
+==================================================
+
+{select several}
+
+==================================================
+AUDIO PRESETS
+==================================================
+
+speech_rate: fast
+directness: indirect
+distractors: high
+decision_changes: 2
+inference_density: high
+opinion_complexity: opposing
+speaker_count: 2-3
+interruptions: natural
+agreement_complexity: partial
+tone: subtle
+viewpoint_overlap: medium
+
+==================================================
+GENERATION REQUIREMENTS
+==================================================
+
+The dialogue must sound natural and realistic.
+Do NOT make it sound scripted.
+
+Include:
+
+• realistic hesitations
+• contractions
+• interruptions where appropriate
+• natural conversational flow
+• authentic Canadian English
+
+Avoid:
+
+• textbook conversations
+• repetitive wording
+• obvious clues
+• unrealistic politeness
+
+Generate enough information so that every question can be answered from the audio.
+
+• include implied meaning
+• include indirect communication
+• avoid stating conclusions explicitly
+• Write all times, dates and numbers in words
+• If there is a question in dialogue - make it as separated sentence
+
+==================================================
+OUTPUT
+==================================================
+
+Provide result as a json file with structure:
+{
+  "title": "<TEST_TITLE>",
+  "level": "<CLB_LEVEL>",
+  "part": "<CELPIP_PART>",
+  "topic": "<TOPIC>",
+
+  "audio": {
+    "speech_rate": "<slow|moderate|fast>",
+    "speech_tone": "<friendly|professional|optimistic|concerned|neutral>",
+    "inference_density": "<low|medium|high>",
+    "agreement_complexity": "<simple|partial|complex>",
+    "viewpoint_overlap": "<low|medium|high>",
+    "distractors": "<none|low|medium|high>",
+    "decision_changes": 0,
+    "interruptions": "<none|natural|frequent>"
+  },
+
+  "dialogue": [
+    {
+      "index": 1,
+      "speaker": "A",
+      "name": "<SPEAKER_NAME>",
+      "voice": "<VOICE_ID>",
+      "text": "<DIALOGUE_TEXT>",
+      "pause_ms": 400
+    },
+    {
+      "index": 2,
+      "speaker": "B",
+      "name": "<SPEAKER_NAME>",
+      "voice": "<VOICE_ID>",
+      "text": "<DIALOGUE_TEXT>",
+      "pause_ms": 500
+    }
+  ]
+}
+
+where voice options are:
+  "female_1": "af_sarah",
+  "female_2": "af_nicole",
+  "female_3": "af_bella",
+  "male_1": "am_michael",
+  "male_2": "am_adam",
+  "male_3": "bm_george"
+voice can be combined:
+"voice": "af_sarah(3)+af_nicole(1)" 

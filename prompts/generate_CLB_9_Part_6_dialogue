@@ -1,0 +1,256 @@
+Skill to test:
+CLB 9: Main Idea, Details, Problem Solving, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation;
+
+Part 6
+What you hear: Viewpoints 
+Main skill tested: Compare arguments and perspectives
+Difficulty: Hardest
+
+Listening for Viewpoints.
+Audio Features:
+• one speaker
+• one audio clip (about 3 minutes)
+• formal, not improvised (prepared in advance)
+• information includes concepts, possibilities, analysis
+• the speaker will use low-frequency and specialized language
+• may quote experts
+
+You are an experienced CELPIP Listening exam writer.
+Generate ONE complete CELPIP Listening exercise.
+The exercise must closely resemble an official CELPIP Listening test in style, complexity and pacing.
+Do NOT explain anything.
+Do NOT describe your reasoning.
+Produce only the listening exercise.
+Write all times, dates and numbers in words.
+If there is a question in dialogue - make it as separated sentence.
+
+==================================================
+TEST CONFIGURATION
+==================================================
+
+Listening Part:
+Part 6
+
+Scenario:
+{TOPIC} - suggest if not provided
+
+==================================================
+SKILLS TO TEST
+==================================================
+
+{select several}
+
+==================================================
+GENERATION REQUIREMENTS
+==================================================
+
+The monologue must sound like a prepared speech or editorial delivered by a knowledgeable speaker.
+The speaker presents two or more viewpoints on a contemporary issue without explicitly stating which viewpoint is correct until the conclusion (if at all).
+The objective is to test the listener's ability to understand arguments, compare perspectives, identify speaker intent, and make logical inferences.
+
+--------------------------------------------------
+Content Requirements
+--------------------------------------------------
+
+Choose a realistic Canadian topic suitable for public discussion.
+
+Examples:
+• remote work
+• public transportation
+• housing affordability
+• online education
+• renewable energy
+• immigration policy
+• AI in the workplace
+• healthcare access
+• recycling programs
+• community safety
+
+Avoid highly political, religious, or controversial topics.
+The discussion should remain balanced and objective.
+
+--------------------------------------------------
+Structure
+--------------------------------------------------
+
+The monologue should contain:
+
+1. Introduction
+   • introduce the issue
+   • explain why it matters
+
+2. Viewpoint A
+   • supporting arguments
+   • examples
+   • advantages
+   • possible weaknesses
+
+3. Viewpoint B
+   • supporting arguments
+   • examples
+   • advantages
+   • possible weaknesses
+
+4. Comparison
+   • similarities
+   • differences
+   • trade-offs
+
+5. Conclusion
+   • summarize viewpoints
+   • may cautiously recommend one position
+   • avoid making the conclusion overly explicit
+
+--------------------------------------------------
+Language Requirements
+--------------------------------------------------
+
+Use natural Canadian English.
+
+Use:
+
+• varied sentence structure
+• transitions
+• paraphrasing
+• indirect language
+• qualifying expressions
+
+Examples:
+
+"Some people argue..."
+"Others believe..."
+"One possible explanation is..."
+"Although..."
+"On the other hand..."
+"It could be argued..."
+
+Avoid:
+
+• repetitive wording
+• textbook phrases
+• obvious clues
+• exaggerated emotional language
+
+--------------------------------------------------
+Inference
+--------------------------------------------------
+
+Require listeners to infer:
+
+• speaker attitude
+• implied opinions
+• strength of arguments
+• motivations
+• priorities
+• likely conclusions
+
+Do NOT explicitly state every conclusion.
+
+--------------------------------------------------
+Argument Complexity
+--------------------------------------------------
+
+Include:
+
+• evidence
+• examples
+• statistics (optional)
+• expert quotations (optional)
+• counterarguments
+
+The arguments should be believable and internally consistent.
+Some arguments should partially overlap.
+The viewpoints should not be completely opposite.
+
+--------------------------------------------------
+Tone
+--------------------------------------------------
+
+Professional.
+Objective.
+Analytical.
+Slightly persuasive.
+Subtle emotional cues.
+
+--------------------------------------------------
+Audio Characteristics
+--------------------------------------------------
+
+Speech Rate:
+Fast
+
+Speech Tone:
+Professional
+
+Directness:
+Indirect
+
+Inference Density:
+High
+
+Agreement Complexity:
+Partial
+
+Viewpoint Overlap:
+Medium
+
+Distractors:
+High
+
+Decision Changes:
+0
+
+Interruptions:
+None
+
+==================================================
+OUTPUT
+==================================================
+
+Provide result as a json file with structure:
+{
+  "title": "<TEST_TITLE>",
+  "level": "<CLB_LEVEL>",
+  "part": "<CELPIP_PART>",
+  "topic": "<TOPIC>",
+
+  "audio": {
+    "speech_rate": "<slow|moderate|fast>",
+    "speech_tone": "<friendly|professional|optimistic|concerned|neutral>",
+    "inference_density": "<low|medium|high>",
+    "agreement_complexity": "<simple|partial|complex>",
+    "viewpoint_overlap": "<low|medium|high>",
+    "distractors": "<none|low|medium|high>",
+    "decision_changes": 0,
+    "interruptions": "<none|natural|frequent>"
+  },
+
+  "dialogue": [
+    {
+      "index": 1,
+      "speaker": "A",
+      "name": "<SPEAKER_NAME>",
+      "voice": "<VOICE_ID>",
+      "text": "<DIALOGUE_TEXT>",
+      "pause_ms": 400
+    },
+    {
+      "index": 2,
+      "speaker": "B",
+      "name": "<SPEAKER_NAME>",
+      "voice": "<VOICE_ID>",
+      "text": "<DIALOGUE_TEXT>",
+      "pause_ms": 500
+    }
+  ],
+}
+
+where voice options are:
+  "female_1": "af_sarah",
+  "female_2": "af_nicole",
+  "female_3": "af_bella",
+  "male_1": "am_michael",
+  "male_2": "am_adam",
+  "male_3": "bm_george"
+voice can be combined:
+"voice": "af_sarah(3)+af_nicole(1)" 

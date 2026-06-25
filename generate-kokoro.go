@@ -76,6 +76,13 @@ func main() {
 	apiURL := flag.String("api", defaultAPIURL, "Kokoro API URL")
 	flag.Parse()
 
+	if *inPath != "" {
+		if err := PrepareDialogueJSON(*inPath); err != nil {
+			fmt.Fprintf(os.Stderr, "prepare dialogue.json error: %v\n", err)
+			os.Exit(1)
+		}
+	}
+
 	if err := CheckKokoroAvailable(*apiURL); err != nil {
 		fmt.Fprintf(os.Stderr, "Kokoro is not available: %v\n", err)
 		os.Exit(1)
@@ -183,6 +190,18 @@ func ProcessFile(path string, apiURL string) error {
 
 	if err := moveInputFile(path, outDir); err != nil {
 		return err
+	}
+
+	// different quession pages for Parts 1-3 and Part 4-6
+	if err := CopyStaticFiles(outDir, test.Part); err != nil {
+		fmt.Println("copying HTML file err", err)
+	}
+
+	// audio questions for Parts 1-3
+	if test.Part == "Part 1" || test.Part == "Part 2" || test.Part == "Part 3" {
+		if err := GenerateQuestionAudio(outDir, test, apiURL); err != nil {
+			fmt.Println("audio questions generate error:", err)
+		}
 	}
 
 	return nil
@@ -422,6 +441,198 @@ func RemoveWAVFiles(outDir string) error {
 		}
 
 		fmt.Println("removed", file)
+	}
+
+	return nil
+}
+
+// to generate audio questions
+func GenerateQuestionAudio(outDir string, test CELPIPTest, apiURL string) error {
+	audioQuestionsDir := filepath.Join(outDir, "audioquestions")
+
+	if err := os.MkdirAll(audioQuestionsDir, 0755); err != nil {
+		return fmt.Errorf("create audioquestions dir: %w", err)
+	}
+
+	if len(test.Questions) == 0 {
+		return fmt.Errorf("no questions found")
+	}
+
+	for i, q := range test.Questions {
+		text := strings.TrimSpace(q.Question)
+		if text == "" {
+			return fmt.Errorf("question %d has empty text", i+1)
+		}
+
+		req := SpeechRequest{
+			Model:          "kokoro",
+			Input:          text,
+			Voice:          "af_bella",
+			ResponseFormat: "mp3",
+			Speed:          1.0,
+		}
+
+		audio, err := GenerateWAV(apiURL, req)
+		if err != nil {
+			return fmt.Errorf("question %d Kokoro error: %w", i+1, err)
+		}
+
+		outFile := filepath.Join(audioQuestionsDir, fmt.Sprintf("q%02d.mp3", i+1))
+
+		if err := os.WriteFile(outFile, audio, 0644); err != nil {
+			return fmt.Errorf("write question audio %s: %w", outFile, err)
+		}
+
+		fmt.Println("created", outFile)
+	}
+
+	return nil
+}
+
+// copy HTML
+func CopyStaticFiles(outDir, part string) error {
+	files := make([]string, 0)
+	if part == "Part 1" || part == "Part 2" || part == "Part 3" {
+		files = []string{
+			"celpip-listening-1-2-3-index.html",
+		}
+	} else if part == "Part 4" || part == "Part 5" || part == "Part 6" {
+		files = []string{
+			"celpip-listening-4-5-6-index.html",
+		}
+	} else {
+		files = []string{
+			"celpip-listening-default-index.html",
+		}
+	}
+
+	for _, name := range files {
+		src := name
+		dst := filepath.Join(outDir, "index.html")
+
+		input, err := os.ReadFile(src)
+		if err != nil {
+			return fmt.Errorf("failed to read %s: %w", src, err)
+		}
+
+		if err := os.WriteFile(dst, input, 0644); err != nil {
+			return fmt.Errorf("failed to write %s: %w", dst, err)
+		}
+
+		fmt.Println("copied", dst)
+	}
+
+	return nil
+}
+
+type QuestionsFile struct {
+	Title     string     `json:"title"`
+	Level     string     `json:"level"`
+	Part      string     `json:"part"`
+	Topic     string     `json:"topic"`
+	Questions []Question `json:"questions"`
+}
+
+func PrepareDialogueJSON(dialoguePath string) error {
+	dialoguePath, err := filepath.Abs(dialoguePath)
+	if err != nil {
+		return err
+	}
+
+	dialogueDir := filepath.Dir(dialoguePath)
+	questionsPath := filepath.Join(dialogueDir, "questions.json")
+
+	if _, err := os.Stat(dialoguePath); err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Errorf("dialogue.json not found: %s", dialoguePath)
+		}
+		return fmt.Errorf("check dialogue.json: %w", err)
+	}
+
+	data, err := os.ReadFile(dialoguePath)
+	if err != nil {
+		return fmt.Errorf("read dialogue.json: %w", err)
+	}
+
+	var test CELPIPTest
+	if err := json.Unmarshal(data, &test); err != nil {
+		return fmt.Errorf("bad dialogue.json format: %w", err)
+	}
+
+	// Already contains questions.
+	if len(test.Questions) > 0 {
+		return nil
+	}
+
+	qData, err := os.ReadFile(questionsPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Errorf("dialogue.json has no questions and %s does not exist", questionsPath)
+		}
+		return fmt.Errorf("read questions.json: %w", err)
+	}
+
+	var qFile QuestionsFile
+	if err := json.Unmarshal(qData, &qFile); err != nil {
+		return fmt.Errorf("bad questions.json format: %w", err)
+	}
+
+	if len(qFile.Questions) == 0 {
+		return fmt.Errorf("questions.json has empty questions list")
+	}
+
+	if err := ValidateQuestions(qFile.Questions); err != nil {
+		return fmt.Errorf("bad questions.json: %w", err)
+	}
+
+	test.Questions = qFile.Questions
+
+	updated, err := json.MarshalIndent(test, "", "  ")
+	if err != nil {
+		return fmt.Errorf("marshal updated dialogue.json: %w", err)
+	}
+
+	if err := os.WriteFile(dialoguePath, updated, 0644); err != nil {
+		return fmt.Errorf("write updated dialogue.json: %w", err)
+	}
+
+	if err := os.Remove(questionsPath); err != nil {
+		return fmt.Errorf("remove questions.json: %w", err)
+	}
+
+	fmt.Printf("merged %s into %s\n", filepath.Base(questionsPath), filepath.Base(dialoguePath))
+
+	return nil
+}
+
+func ValidateQuestions(questions []Question) error {
+	for i, q := range questions {
+		if q.ID == 0 {
+			return fmt.Errorf("question %d has empty id", i+1)
+		}
+
+		if strings.TrimSpace(q.Question) == "" {
+			return fmt.Errorf("question %d has empty question text", q.ID)
+		}
+
+		for _, key := range []string{"A", "B", "C", "D"} {
+			if strings.TrimSpace(q.Options[key]) == "" {
+				return fmt.Errorf("question %d has empty option %s", q.ID, key)
+			}
+		}
+
+		correct := strings.TrimSpace(q.Answer.CorrectOption)
+		if correct != "A" && correct != "B" && correct != "C" && correct != "D" {
+			return fmt.Errorf("question %d has invalid correct_option: %q", q.ID, correct)
+		}
+
+		if strings.TrimSpace(q.Answer.CorrectAnswer) == "" {
+			return fmt.Errorf("question %d has empty correct_answer", q.ID)
+		}
+
+		if strings.TrimSpace(q.Answer.Explanation) == "" {
+			return fmt.Errorf("question %d has empty explanation", q.ID)
+		}
 	}
 
 	return nil

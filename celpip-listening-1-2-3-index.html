@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CELPIP Listening Practice</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --correct: #dcfce7;
+      --correct-border: #16a34a;
+      --wrong: #fee2e2;
+      --wrong-border: #dc2626;
+      --warning: #fff7ed;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .meta {
+      color: #d1d5db;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .timer {
+      font-size: 16px;
+      border: 1px solid #374151;
+      padding: 8px 12px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .layout {
+      max-width: 980px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .instructions {
+      background: var(--warning);
+      border: 1px solid #fed7aa;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 16px 0;
+      color: #7c2d12;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .audio-panel {
+      text-align: center;
+    }
+
+    .audio-label {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .question-count {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .question {
+      font-size: 21px;
+      font-weight: 700;
+      margin: 8px 0 20px;
+      line-height: 1.4;
+    }
+
+    .option {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      background: white;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .option:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+
+    .option input {
+      margin-right: 10px;
+      transform: scale(1.15);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 15px;
+      cursor: pointer;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    button.secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    button.secondary:hover {
+      background: #d1d5db;
+    }
+
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      background: white;
+    }
+
+    .answer-line {
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border: 1px solid var(--border);
+    }
+
+    .answer-line.correct {
+      background: var(--correct);
+      border-color: var(--correct-border);
+    }
+
+    .answer-line.wrong {
+      background: var(--wrong);
+      border-color: var(--wrong-border);
+    }
+
+    .score {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 8px 0 18px;
+    }
+
+    .skill {
+      display: inline-block;
+      font-size: 12px;
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 4px 8px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .error {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #7f1d1d;
+      padding: 16px;
+      border-radius: 10px;
+    }
+
+    .timer.out {
+      color: #fecaca;
+      border-color: #dc2626;
+      background: #7f1d1d;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1 id="testTitle">CELPIP Listening Practice</h1>
+      <div class="meta" id="testMeta">Loading test...</div>
+    </div>
+    <div class="timer" id="timer">Practice Mode</div>
+  </header>
+
+  <main class="layout">
+    <section class="card" id="loadError" style="display:none"></section>
+
+    <section class="card" id="startScreen">
+      <h2 class="section-title">Listening Test</h2>
+      <p>This practice page will play the audio first. After listening, answer the questions one by one.</p>
+      <div class="instructions">
+        In the real CELPIP test, audio is usually played once. For practice, this page shows an audio control.
+      </div>
+
+      <div class="audio-panel">
+        <div class="audio-label">Audio</div>
+        <audio id="audio" controls preload="metadata">
+          <source src="dialogue.mp3" type="audio/mpeg" />
+          Your browser does not support audio playback.
+        </audio>
+      </div>
+
+      <div class="actions">
+        <button class="secondary" id="restartAudioBtn">Restart Audio</button>
+        <button id="startQuestionsBtn">Start Questions</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="questionScreen">
+      <div class="question-count" id="questionCount"></div>
+      <div class="skill" id="questionSkill"></div>
+      <div class="question" id="questionText"></div>
+      <form id="optionsForm"></form>
+      <div class="actions">
+        <button class="secondary" id="backBtn" type="button">Back</button>
+        <button id="nextBtn" type="button" disabled>Next</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="resultScreen">
+      <h2 class="section-title">Results</h2>
+      <div class="score" id="scoreText"></div>
+      <div id="resultsList"></div>
+      <div class="actions">
+        <button class="secondary" id="reviewAudioBtn">Listen Again</button>
+        <button id="restartTestBtn">Restart Test</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let testData = null;
+    let currentQuestionIndex = 0;
+    let userAnswers = {};
+    let questionTimer = null;
+    let secondsLeft = 30;
+
+    const $ = (id) => document.getElementById(id);
+
+    async function loadTest() {
+      try {
+        const response = await fetch("dialogue.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("Cannot load dialogue.json");
+        }
+
+        testData = await response.json();
+
+        $("testTitle").textContent = testData.title || "CELPIP Listening Practice";
+        $("testMeta").textContent = [
+          testData.level,
+          testData.part,
+          testData.topic
+        ].filter(Boolean).join(" • ");
+
+        if (!Array.isArray(testData.questions) || testData.questions.length === 0) {
+          throw new Error("dialogue.json does not contain questions.");
+        }
+      } catch (error) {
+        $("startScreen").style.display = "none";
+        $("loadError").style.display = "block";
+        $("loadError").innerHTML = `
+          <div class="error">
+            <strong>Failed to load test data.</strong><br>
+            ${escapeHtml(error.message)}<br><br>
+            Make sure index.html, dialogue.json, and dialogue.mp3 are in the same folder.
+            Open this page through a local web server, not directly as a file.
+          </div>
+        `;
+      }
+    }
+
+    function renderQuestion() {
+      const question = testData.questions[currentQuestionIndex];
+      const total = testData.questions.length;
+
+      $("questionCount").textContent = `Question ${currentQuestionIndex + 1} of ${total}`;
+      $("questionSkill").textContent = question.skill || "LISTENING";
+      const questionNumber = String(currentQuestionIndex + 1).padStart(2, "0");
+      $("questionText").innerHTML = `
+        <div>Listen to the question:</div>
+        <audio controls autoplay>
+          <source src="./audioquestions/q${questionNumber}.mp3" type="audio/mpeg">
+          Your browser does not support audio playback.
+        </audio>
+      `;
+
+      const selected = userAnswers[question.id];
+      $("optionsForm").innerHTML = "";
+
+      for (const [key, value] of Object.entries(question.options)) {
+        const label = document.createElement("label");
+        label.className = "option";
+        label.innerHTML = `
+          <input type="radio" name="answer" value="${key}" ${selected === key ? "checked" : ""}>
+          <strong>${key}.</strong> ${escapeHtml(value)}
+        `;
+        $("optionsForm").appendChild(label);
+      }
+
+      $("backBtn").disabled = currentQuestionIndex === 0;
+      $("nextBtn").textContent = currentQuestionIndex === total - 1 ? "Finish" : "Next";
+      $("nextBtn").disabled = !selected;
+      startQuestionTimer();
+    }
+
+    function showQuestions() {
+      stopQuestionTimer();
+      userAnswers = {};
+      currentQuestionIndex = 0;
+      $("startScreen").classList.add("hidden");
+      $("resultScreen").classList.add("hidden");
+      $("questionScreen").classList.remove("hidden");
+      renderQuestion();
+    }    
+
+    function showResults() {
+      stopQuestionTimer();
+      $("questionScreen").classList.add("hidden");
+      $("resultScreen").classList.remove("hidden");
+
+      let correctCount = 0;
+      const total = testData.questions.length;
+      $("resultsList").innerHTML = "";
+
+      testData.questions.forEach((question, index) => {
+        const userChoice = userAnswers[question.id];
+        const correctChoice = question.answer.correct_option;
+        const isCorrect = userChoice === correctChoice;
+
+        if (isCorrect) correctCount++;
+
+        const item = document.createElement("div");
+        item.className = "result-item";
+
+        const userText = userChoice
+          ? `${userChoice}. ${question.options[userChoice]}`
+          : "No answer selected";
+
+        const correctText = `${correctChoice}. ${question.options[correctChoice]}`;
+
+        item.innerHTML = `
+          <div class="question-count">Question ${index + 1}</div>
+          <div class="skill">${escapeHtml(question.skill || "LISTENING")}</div>
+          <div class="question">${escapeHtml(question.question)}</div>
+
+          <div class="answer-line ${isCorrect ? "correct" : "wrong"}">
+            <strong>Your answer:</strong> ${escapeHtml(userText)}
+          </div>
+
+          ${isCorrect ? "" : `
+            <div class="answer-line correct">
+              <strong>Correct answer:</strong> ${escapeHtml(correctText)}
+            </div>
+          `}
+
+          <p><strong>Explanation:</strong> ${escapeHtml(question.answer.explanation || "")}</p>
+        `;
+
+        $("resultsList").appendChild(item);
+      });
+
+      $("scoreText").textContent = `${correctCount} / ${total} correct`;
+    }
+
+    function restartTest() {
+      stopQuestionTimer();
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      $("resultScreen").classList.add("hidden");
+      $("startScreen").classList.remove("hidden");
+      const audio = $("audio");
+      audio.pause();
+      audio.currentTime = 0;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function startQuestionTimer() {
+      clearInterval(questionTimer);
+    
+      secondsLeft = 30;
+      $("timer").classList.remove("out");
+      $("timer").textContent = `Time left: ${secondsLeft}s`;
+    
+      questionTimer = setInterval(() => {
+        secondsLeft--;
+    
+        if (secondsLeft > 0) {
+          $("timer").textContent = `Time left: ${secondsLeft}s`;
+        } else {
+          clearInterval(questionTimer);
+          $("timer").textContent = "Out of time";
+          $("timer").classList.add("out");
+        }
+      }, 1000);
+    }
+    
+    function stopQuestionTimer() {
+      clearInterval(questionTimer);
+      $("timer").classList.remove("out");
+      $("timer").textContent = "Practice Mode";
+    }
+
+    $("startQuestionsBtn").addEventListener("click", showQuestions);
+
+    $("restartAudioBtn").addEventListener("click", () => {
+      const audio = $("audio");
+      audio.currentTime = 0;
+      audio.play();
+    });
+
+    $("reviewAudioBtn").addEventListener("click", () => {
+      stopQuestionTimer();
+      $("resultScreen").classList.add("hidden");
+      $("startScreen").classList.remove("hidden");
+    });
+
+    $("restartTestBtn").addEventListener("click", restartTest);
+
+    $("optionsForm").addEventListener("change", (event) => {
+      const question = testData.questions[currentQuestionIndex];
+      userAnswers[question.id] = event.target.value;
+      $("nextBtn").disabled = false;
+    });
+
+    $("backBtn").addEventListener("click", () => {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+      }
+    });
+
+    $("nextBtn").addEventListener("click", () => {
+      if (currentQuestionIndex < testData.questions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    loadTest();
+  </script>
+</body>
+</html>

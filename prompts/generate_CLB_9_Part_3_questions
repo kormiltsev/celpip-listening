@@ -1,0 +1,47 @@
+Skill to test:
+Main Idea, Details, Problem Solving, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation;
+
+Generate 10 of multiple-choice questions.
+
+Each question must have:
+
+A.
+B.
+C.
+D.
+
+Exactly ONE answer must be correct.
+Wrong answers must be plausible.
+Distribute questions across all required skills.
+Write all times, dates and numbers in digits
+Provide answer for each question with short description with output form
+
+==================================================
+OUTPUT
+==================================================
+
+Provide result as a json file with structure:
+{
+  "title": "<TEST_TITLE>",
+  "level": "<CLB_LEVEL>",
+  "part": "<CELPIP_PART>",
+  "topic": "<TOPIC>",
+  "questions": [
+    {
+      "id": 1,
+      "skill": "<MAIN_IDEA|DETAIL|INFERENCE|SPEAKER_INTENT|ATTITUDE|CAUSE_EFFECT|PREDICTION|OPINION>",
+      "question": "<QUESTION_TEXT>",
+      "options": {
+        "A": "<OPTION_A>",
+        "B": "<OPTION_B>",
+        "C": "<OPTION_C>",
+        "D": "<OPTION_D>"
+      },
+      "answer": {
+        "correct_option": "<A|B|C|D>",
+        "correct_answer": "<CORRECT_OPTION_TEXT>",
+        "explanation": "<SHORT_EXPLANATION>"
+      }
+    }
+  ]
+}

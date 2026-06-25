@@ -1,0 +1,163 @@
+Skill to test:
+CLB 5: Main Idea, Details, Instructions, Sequencing, Problem Solving;
+CLB 6: Main Idea, Details, Instructions, Sequencing, Problem Solving, Inference;
+CLB 7: Main Idea, Details, Instructions, Sequencing, Problem Solving, Inference, Speaker Intent, Tone/Attitude;
+CLB 8: Main Idea, Details, Sequencing, Problem Solving, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement;
+CLB 9: Main Idea, Details, Problem Solving, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation	;
+CLB 10: Main Idea, Details, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation, Hidden Assumptions;
+CLB 11: Main Idea, Details, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation, Hidden Assumptions, Abstract Reasoning;
+CLB 12: Main Idea, Details, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation, Hidden Assumptions, Abstract Reasoning;
+
+Audio presets:
+CLB 9:
+speech_rate: fast
+directness: indirect
+distractors: high
+decision_changes: 2
+inference_density: high
+opinion_complexity: opposing
+speaker_count: 2-3
+interruptions: natural
+agreement_complexity: partial
+tone: subtle
+viewpoint_overlap: medium;
+CLB 10:
+speech_rate: very_fast
+directness: highly_implicit
+distractors: high
+decision_changes: 3
+inference_density: high
+opinion_complexity: nuanced
+speaker_count: 3-4
+interruptions: natural
+agreement_complexity: partial
+tone: subtle
+viewpoint_overlap: high;
+CLB 11:
+speech_rate: very_fast
+directness: highly_implicit
+distractors: very_high
+decision_changes: 3+
+inference_density: very_high
+opinion_complexity: nuanced
+speaker_count: 4
+interruptions: frequent
+agreement_complexity: complex
+tone: extremely_subtle
+viewpoint_overlap: high;
+CLB 12:
+speech_rate: very_fast
+directness: highly_implicit
+distractors: very_high
+decision_changes: 3+
+inference_density: very_high
+opinion_complexity: nuanced
+speaker_count: 4
+interruptions: frequent
+agreement_complexity: complex
+tone: extremely_subtle
+viewpoint_overlap: high.
+
+Parts:
+Part 1
+What you hear: Problem-solving conversation
+Main skill tested: Understand decisions and solutions
+Difficulty: Easy
+
+Listening to Problem Solving.
+10 questions.
+Audio Features:
+• 2 speakers (one man, one woman)
+• one audio clip (about 3-6 minutes)
+• conversational, relatively informal, polite
+• helpful: one speaker wants to help the other with a problem
+• the speakers don’t know each other
+
+Part 2
+What you hear: Daily-life conversation
+Main skill tested: Follow casual conversation and implied meaning
+Difficulty: Easy-Medium
+
+Listening to a Daily Life Conversation.
+7 questions.
+Audio Features:
+• 2 speakers (one man, one woman)
+• one audio clip (about 1.5–2 minutes)
+• conversational, relatively informal, polite
+• not too casual or personal
+• the speakers know each other
+
+Part 3
+What you hear: Information
+Main skill tested: Extract facts and details
+Difficulty: Medium
+
+Listening for Information.
+10 questions.
+Audio Features:
+• 2 speakers (one man, one woman)
+• one audio clip (about 2–2.5 minutes)
+• polite, informal to somewhat formal
+• one speaker has expertise/information that the other is interested in
+
+Part 4
+What you hear: News item
+Main skill tested: Understand reports and summaries
+Difficulty: Medium
+
+Listening to a News Item
+15 questions.
+Audio Features:
+• one speaker
+• one audio clip (about 2-3 minutes)
+• formal, factual, descriptive: like a radio or TV news report
+
+Part 5
+What you hear: Discussion
+Main skill tested: Track multiple speakers and opinions
+Difficulty: Hard
+
+Listening to a Discussion
+15-20 questions.
+Audio Features:
+• 3 speakers
+• one audio (about 2-3 minutes)
+• relatively informal
+• includes facts, opinions, and emotions
+• speakers will sometimes disagree about things
+
+Part 6
+What you hear: Viewpoints 
+Main skill tested: Compare arguments and perspectives
+Difficulty: Hardest
+
+Listening for Viewpoints.
+15-20 questions.
+Audio Features:
+• one speaker
+• one audio clip (about 3 minutes)
+• formal, not improvised (prepared in advance)
+• information includes concepts, possibilities, analysis
+• the speaker will use low-frequency and specialized language
+• speaker can provide quotes 
+
+
+You need to create requirements (prompt) for generating dialog for CELPIP test. 
+Scenario:
+{monolog/dialogues topic}
+
+Skills To Test:
+{list of skills to be tested based on SLB level requested}
+
+Additional Skills:
+{additional}
+
+Audio Presets:
+- Speech Rate: 
+- Speech Tone: 
+- Inference Density:
+- Agreement Complexity:
+- Viewpoint Overlap:
+- Distractors: 
+- Decision Changes: 
+- Interruptions: 
