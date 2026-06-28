@@ -1,7 +1,6 @@
 Skill to test:
 CLB 9: Main Idea, Details, Problem Solving, Inference, Speaker Intent, Tone/Attitude, Prediction, Compare Viewpoints, Agreement/Disagreement, Speaker Bias, Argument Evaluation;
 
-Part 4
 What you hear: News item
 Main skill tested: Understand reports and summaries
 Difficulty: Medium
@@ -12,9 +11,8 @@ Audio Features:
 • one audio clip (about 2-3 minutes)
 • formal, factual, descriptive: like a radio or TV news report
 
-You are an experienced CELPIP Listening exam writer.
-Generate ONE complete CELPIP Listening exercise.
-The exercise must closely resemble an official CELPIP Listening test in style, complexity and pacing.
+You are an experienced Listening exam writer.
+Generate ONE complete Listening exercise.
 Do NOT explain anything.
 Do NOT describe your reasoning.
 Produce only the listening exercise.
@@ -22,9 +20,6 @@ Produce only the listening exercise.
 ==================================================
 TEST CONFIGURATION
 ==================================================
-
-Listening Part:
-Part 4
 
 Scenario:
 {TOPIC} - suggest if not provided

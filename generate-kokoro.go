@@ -492,11 +492,11 @@ func GenerateQuestionAudio(outDir string, test CELPIPTest, apiURL string) error 
 // copy HTML
 func CopyStaticFiles(outDir, part string) error {
 	files := make([]string, 0)
-	if part == "Part 1" || part == "Part 2" || part == "Part 3" {
+	if part == "Part 1" || part == "Part 2" || part == "Part 3" || part == "3" || part == "2" || part == "1" {
 		files = []string{
 			"celpip-listening-1-2-3-index.html",
 		}
-	} else if part == "Part 4" || part == "Part 5" || part == "Part 6" {
+	} else if part == "Part 4" || part == "Part 5" || part == "Part 6" || part == "4" || part == "5" || part == "6" {
 		files = []string{
 			"celpip-listening-4-5-6-index.html",
 		}
